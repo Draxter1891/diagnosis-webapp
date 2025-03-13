@@ -20,6 +20,8 @@
     "@thirdweb-dev/react": "^3",
     "@thirdweb-dev/sdk": "^3",
     "appwrite": "14.0.1",
+    "buffer": "^6.0.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.32.1",
     "ethers": "^5.7.2",

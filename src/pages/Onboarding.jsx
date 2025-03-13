@@ -1,17 +1,23 @@
 import React, { useState } from "react";
-
+import { useStateContext } from "../context";
+import { usePrivy } from "@privy-io/react-auth";
+import { useNavigate } from "react-router-dom";
 const Onboarding = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState("");
   const [location, setLocation] = useState("");
 
+  const { createUser } = useStateContext();
+  const { user } = usePrivy();
+  const navigate = useNavigate();
+
   const handleOnboarding = async (e) => {
     e.preventDefault();
     const userData = {
       firstName,
       lastName,
-      age: parseInt(age, 10),
+      age: parseInt(age, 10), // to convert the string age into integer and second argument specifies the decimal conversion.
       location,
       folders: [],
       treatmentCounts: 0,
@@ -19,7 +25,6 @@ const Onboarding = () => {
       createdBy: user.email.address,
     };
 
-    console.log(userData);
     const newUser = await createUser(userData);
     if (newUser) {
       navigate("/profile");
