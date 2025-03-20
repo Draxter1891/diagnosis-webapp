@@ -1,11 +1,19 @@
 import { neon } from "@neondatabase/serverless";
-
 import { drizzle } from "drizzle-orm/neon-http";
-
 import * as schema from "./schema";
 
-const sql = neon(
-  "postgresql://neondb_owner:npg_P3NCtSz6sDQv@ep-delicate-silence-a8fdq6jw-pooler.eastus2.azure.neon.tech/diagnosis-database?sslmode=require",
-);
+//Developer's permission needed to get private keys
+const dbConnectionString = import.meta.env.VITE_DB_CONNECTION;
+if (!dbConnectionString) {
+  throw new Error("❌ Database connection string is missing! Check your .env file.");
+}
+
+
+const sql = neon(dbConnectionString);
 
 export const db = drizzle(sql, { schema });
+
+//verifying the database connection
+db.select().from(schema.Users).limit(1)
+  .then(res => console.log("DB Connected:", res))
+  .catch(err => console.error("DB Connection Failed:", err));

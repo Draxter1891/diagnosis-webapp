@@ -26,13 +26,19 @@ export const StateContextProvider = ({ children }) => {
       const result = await db
         .select()
         .from(Users)
-        .where(eq(Users.createdBy, email));
+        .where(eq(Users.createdBy, email))
+        .execute();
 
       if (result.length > 0) {
         setCurrentUser(result[0]);
+        return result[0];
+      }else{
+        setCurrentUser(null);
+        return null;
       }
     } catch (error) {
       console.error("Error in fetching user by email", error);
+      return null;
     }
   }, []);
 
@@ -44,9 +50,16 @@ export const StateContextProvider = ({ children }) => {
         .returning()
         .execute();
 
+      if(newUser.length>0){
       setUsers((prevUser) => [...prevUser, newUser[0]]);
+      setCurrentUser(newUser[0])
+      return newUser[0]
+      }else{
+        console.log("❌ createUser: No user returned from DB.")
+      return null;
+      }
     } catch (error) {
-      console.error("Error in creating user", error);
+      console.error("❌ Error in createUser:", error);
       return null;
     }
   }, []);
@@ -76,7 +89,7 @@ export const StateContextProvider = ({ children }) => {
       setRecords((prevRecords) => [...prevRecords, newRecord[0]]);
       return newRecord[0];
     } catch (error) {
-      console.error("Error in creating record", error);
+      console.error("Error in creating records", error);
       return null;
     }
   }, []);

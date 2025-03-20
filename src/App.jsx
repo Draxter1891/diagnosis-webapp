@@ -8,17 +8,27 @@ import { useStateContext } from "./context";
 import { usePrivy } from "@privy-io/react-auth";
 
 const App = () => {
-  const { currentUser } = useStateContext();
+  const { currentUser,fetchUserByEmail } = useStateContext();
   const { user, authenticated, login, ready } = usePrivy();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (ready && !authenticated) {
+    if (!ready) return;
+
+    if (!authenticated) {
       login();
-    } else if (user && !currentUser) {
-      navigate("/onboarding");
+      return;
+    } 
+    
+    if (user) {
+      fetchUserByEmail(user.email.address).then((fetchedUser) => {
+        if (!fetchedUser && window.location.pathname !== "/onboarding") {
+          console.log("⚠️ Redirecting to Onboarding because currentUser is still null");
+          navigate("/onboarding", { replace: true });
+        }
+      });
     }
-  }, [ready, currentUser, navigate]);
+  }, [ready, authenticated, user, navigate]);
 
   return (
     <div className="relative flex min-h-screen flex-row bg-[#13131a] p-4">

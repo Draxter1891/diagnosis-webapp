@@ -2,32 +2,44 @@ import React, { useState } from "react";
 import { useStateContext } from "../context";
 import { usePrivy } from "@privy-io/react-auth";
 import { useNavigate } from "react-router-dom";
+
 const Onboarding = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState("");
   const [location, setLocation] = useState("");
-
   const { createUser } = useStateContext();
-  const { user } = usePrivy();
+  const { user, authenticated } = usePrivy();
   const navigate = useNavigate();
 
   const handleOnboarding = async (e) => {
-    e.preventDefault();
-    const userData = {
-      firstName,
-      lastName,
-      age: parseInt(age, 10), // to convert the string age into integer and second argument specifies the decimal conversion.
-      location,
-      folders: [],
-      treatmentCounts: 0,
-      folder: [],
-      createdBy: user.email.address,
-    };
+    e.preventDefault(); // prevents refreshing the page after submit button being clicked
 
-    const newUser = await createUser(userData);
-    if (newUser) {
-      navigate("/profile");
+    if (authenticated) {
+      const userData = {
+        firstName,
+        lastName,
+        age: parseInt(age, 10), // to convert the string age into integer and second argument specifies the decimal conversion.
+        location,
+        // folders: [],
+        // treatmentCounts: 0,
+        // folder: [],
+        createdBy: user.email.address,
+      };
+
+      console.log("📤 Sending User Data:", userData);
+      
+      const newUser = await createUser(userData);
+      if (newUser) {
+        console.log("✅ User created successfully:", newUser);
+        alert(`User created: ${firstName}`);
+        navigate("/profile");
+      }else{
+        console.error("❌ User creation failed, but data exists in DB.");
+        alert("Failed to create user. Try again!")
+      }
+    } else {
+      alert("Please Login First");
     }
   };
 
@@ -36,7 +48,7 @@ const Onboarding = () => {
       <div className="w-full max-w-md rounded-xl bg-[#1c1c24] p-8 shadow-lg">
         <h2 className="mb-2 text-center text-5xl font-bold text-white">🙏</h2>
         <h2 className="mb-6 text-center text-2xl font-bold text-white">
-          Namaste, Let's Get Started
+          Namaste!, Let's Get Started
         </h2>
         <form onSubmit={handleOnboarding}>
           <div className="mb-4">

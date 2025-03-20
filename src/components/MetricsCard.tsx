@@ -2,7 +2,10 @@ import { IconChevronRight } from "@tabler/icons-react";
 import React from "react";
 
 const MetricsCard = ({ title, subtitle, value, icon: Icon, onClick }) => (
+
+
   <div className="flex flex-col rounded-xl border bg-white shadow-sm dark:border-neutral-800 dark:bg-[#13131a]">
+
     <div className="flex justify-between gap-x-3 md:p-5">
       <div>
         <p className="text-xs uppercase tracking-wide text-neutral-500">
@@ -19,16 +22,17 @@ const MetricsCard = ({ title, subtitle, value, icon: Icon, onClick }) => (
         <Icon size={25} className="text-green-500" />
       </div>
     </div>
+
     <a
       href="#"
       onClick={onClick}
       className="inline-flex items-center justify-between rounded-b-xl border-t border-neutral-800 px-4 py-3 text-sm text-neutral-400 hover:bg-neutral-800 md:px-5"
     >
-      {" "}
       {subtitle}
       <IconChevronRight />
     </a>
   </div>
 );
+
 
 export default MetricsCard;

@@ -9,6 +9,8 @@ import { useStateContext } from "../../context";
 const Index = () => {
   const navigate = useNavigate();
   const { user } = usePrivy();
+  const [userRecords, setUserRecords] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     records,
     fetchUserRecords,
@@ -17,8 +19,6 @@ const Index = () => {
     currentUser,
   } = useStateContext();
 
-  const [userRecords, setUserRecords] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -85,13 +85,13 @@ const Index = () => {
         onCreate={createFolder}
       />
       <div className="grid w-full sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-        {userRecords?.map((record) => {
+        {userRecords?.map((record) => (
           <RecordCard
             key={record.recordName}
             record={record}
             onNavigate={handleNavigate}
-          />;
-        })}
+          />
+        ))}
       </div>
     </div>
   );
