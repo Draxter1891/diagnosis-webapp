@@ -6,6 +6,8 @@ import MedicalRecord from "./pages/records/index";
 import { Home, Onboarding, Profile } from "./pages";
 import { useStateContext } from "./context";
 import { usePrivy } from "@privy-io/react-auth";
+import SingleRecordDetails from "./pages/records/single-record-details";
+import ScreeningSchedule from "./pages/ScreeningSchedule";
 
 const App = () => {
   const { currentUser,fetchUserByEmail } = useStateContext();
@@ -44,6 +46,8 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/medical-records" element={<MedicalRecord />} />
+          <Route path="/medical-records/:id" element={<SingleRecordDetails />} />
+          <Route path="/screening-schedules" element={<ScreeningSchedule/>} />
         </Routes>
       </div>
     </div>

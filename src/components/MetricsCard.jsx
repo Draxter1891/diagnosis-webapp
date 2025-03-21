@@ -4,7 +4,7 @@ import React from "react";
 const MetricsCard = ({ title, subtitle, value, icon: Icon, onClick }) => (
 
 
-  <div className="flex flex-col rounded-xl border bg-white shadow-sm dark:border-neutral-800 dark:bg-[#13131a]">
+  <div className="flex flex-col rounded-xl border bg-white shadow-sm dark:border-neutral-800 dark:bg-[#13131a] p-4">
 
     <div className="flex justify-between gap-x-3 md:p-5">
       <div>
